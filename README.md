@@ -14,3 +14,39 @@ Guide for the Airflow Workshop given at SLC DevOps Days 2019.
 6. For _name_, type `workshop-environment`. For _location_, select `us-central1`. For _Python Version_, select `3`. Click _Create_.
 
 7. You'll arrive back at the Cloud Composer console. Wait for the environment to be available.
+
+8. Clone this git repo.
+```
+git clone https://github.com/ternarydata/DevopsDays-Airflow-Workshop.git
+```
+
+9. In the repo, you'll find three different version of the main DAG file, `workshop-example.py`. These are appeded with 0 through 3 to indicate the different versions.
+
+10. Copy `workshop-example.py.0` to `workshop-example.py`. Click on _DAGs Folder_ in the Cloud Composer console to bring up the GCS bucket containing the Airflow DAGs. Drag and drop `workshop-example.py` into the bucket.
+
+11. Back in the Cloud Composer console, select the Airflow webserver link for the environment. Sign in.
+
+12. You should now see the Airflow DAGs list. You may need to refresh a few times to see `workshop_dag`.
+
+13. If you click on the `workshop_dag` link, you should see the tree view of tasks for two days.
+
+14. Try selecting _Graph View_ to understand DAG dependencies.
+
+15. Next, we'll backfill the DAG to the beginnning of the month. Open the Google Cloud Shell. Make sure you are in the right project. Run the following to backfill to May 1st.
+```
+gcloud composer environments run --location us-central1 workshop-environment backfill -- workshop_dag -s 2019-05-01 -e 2019-05-14
+```
+
+16. Return to the task tree view to watch the tasks kick off and complete. Click the _refresh_ button on the page rather than refreshing the browser will force the web server to refresh and show you the latest data.
+
+17. If you return to Google Cloud Shell and find that the command exited with non-zero status, you may be getting deadlock errors. You'll notice in the tree view that not all tasks have completed. I have not debugged what is causing these errors, but you can run the backfill command again. It will eventually complete successfully.
+
+18. Next, we'll add a new task with no dependencies. Copy `workshop-example.py.1` to `workshop-example.py` and upload. (You will need to resolve an upload conflict by selecting _replace_.)
+
+19. You will eventually see `new_task` in the web interface. You can see in _Graph View_ that the task has no dependencies.
+
+20. Next, add the dependency edges for `new_task` by copying and uploading `workshop-example.py.2`.
+
+21. Backfill again in the Cloud Shell to run the new tasks.
+
+22.
