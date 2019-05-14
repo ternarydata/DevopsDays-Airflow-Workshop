@@ -24,6 +24,7 @@ import airflow
 from airflow.models import DAG
 from airflow.operators.bash_operator import BashOperator
 from airflow.operators.dummy_operator import DummyOperator
+from airflow.contrib.operators.bigquery_operator import BigQueryOperator
 
 args = {
     'owner': 'airflow',
@@ -69,6 +70,14 @@ new_task = BashOperator(
 
 run_this >> new_task
 also_run_this >> new_task
+
+bq_task = BigQueryOperator(
+    task_id='bq_task',
+    bql='SELECT 1', use_legacy_sql=False,
+    dag=dag,
+)
+
+new_task >> bq_task
 
 if __name__ == "__main__":
     dag.cli()
