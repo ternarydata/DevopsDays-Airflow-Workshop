@@ -49,4 +49,13 @@ gcloud composer environments run --location us-central1 workshop-environment bac
 
 21. Backfill again in the Cloud Shell to run the new tasks.
 
-22.
+22. Next, we'll remove `run_this_last`, both in the database and the DAG definition file.
+To remove it in the DAG definition file, go to the _Tree View_. Click on one of the boxes (task instances) for this task. Select _task instances_. Select all and delete. Return to the tree view to see that the instances for this task have been cleared, but instances for other tasks remain.
+
+23. We update the DAG definition file to remove all mentions of `run_this_last`. Copy and upload `workshop-example.py.3`.
+
+24. Next, we'll add a BigQuery task. Copy and upload `workshop-example.py.4`. Look at the code. Backfill to run the task instances.
+
+25. When you are done, tear everything down to make sure you don't incur additional GCP charges. The easiest option is to delete `airflow-workshop-project`. To do this, click on the project name in the bar at the top of the screen. Click on the three dot menu in the upper right hand corner of the pop up box. Click _manage resources_. Check the box next to `airflow-workshop-project`. Follow the instructions to delete the project.
+
+26. Verify that your project has been deleted so you don't accidentally incur extra charges.
